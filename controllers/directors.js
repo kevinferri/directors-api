@@ -1,8 +1,6 @@
-/*********************************************************************************************************************************
+/*******************************************************
  * Handles HTTP requests that are defined in ./routes.js
- * Function names correlate with the route and HTTP verb they control
- * Each function is responsible for santizing and validating incomming data and making sure it sends proper data to db operations
-**********************************************************************************************************************************/
+********************************************************/
 
 var Director = require('../models/Director.js'),
   livestreamAPI = require('../lib/livestream-api.js'),
@@ -32,9 +30,41 @@ var directorCtrl = function() {
         name: 'BadRequestBody',
         message: 'Bad Request body: ' + body
       }
+    },
+    invalidJson: function(body) {
+      return {
+        name: 'InvalidJson',
+        message: str + ' is not valid JSON',
+      }
     }
 
   };
+
+  /**
+   * Gets the body of a HTTP request and passes it into a callback
+   * @param {{}} req
+   * @param {{}} res
+   */
+  self.getRequestBody = function(req, res, callback) {
+    var body = '';
+
+    req.on('data', function (data) {
+      body += data;
+      // Too much data so we need to kill the connection
+      if (body.length > 1e6) {
+        res.json(self.errors.tooMuchData());
+        req.connection.destroy();
+      }
+    });
+
+    req.on('end', function () {
+      if (utils.isValidJson(body)) {
+        callback(body);
+      } else {
+        res.json(errors.invalidJson(body));
+      }
+    });
+  }
 
   /**
    * Gets an individual director document
