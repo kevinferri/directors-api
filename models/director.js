@@ -26,7 +26,13 @@ var directorSchema = mongoose.Schema({
   favorite_movies: {
     type: Array,
     required: false
-  }
-});
+  }, 
+}, { versionKey: false });
 
-module.exports = mongoose.model('Director', directorSchema);
+var Director = mongoose.model('Director', directorSchema);
+
+Director.schema.path('_id').validate(function (id) {
+  return typeof id !== 'undefined' && !isNaN(id) && id > 0;
+}, 'Invalid ID');
+
+module.exports = Director;

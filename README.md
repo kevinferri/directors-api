@@ -1,7 +1,7 @@
 # Directors API
 
 ## To use/clone this app
-```bash
+```
 git clone http://github.com/kevinferri/directors-api
 cd directors-api
 npm install

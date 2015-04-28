@@ -11,7 +11,7 @@ module.exports = (function() {
   router.post('/directors', directors.postDirector);
   router.get('/directors', directors.getDirectors);
   router.get('/directors/:id', directors.getDirector);
-  router.put('/directors/:id', directors.putDirector);
+  //router.put('/directors/:id', directors.putDirector);
 
   return router;
 
