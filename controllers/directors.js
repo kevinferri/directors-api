@@ -31,7 +31,7 @@ var directorCtrl = function() {
         message: 'Bad Request body: ' + body
       }
     },
-    invalidJson: function(body) {
+    invalidJson: function(str) {
       return {
         name: 'InvalidJson',
         message: str + ' is not valid JSON',
@@ -61,7 +61,7 @@ var directorCtrl = function() {
       if (utils.isValidJson(body)) {
         callback(body);
       } else {
-        res.json(errors.invalidJson(body));
+        res.json(self.errors.invalidJson(body));
       }
     });
   }
@@ -140,7 +140,7 @@ var directorCtrl = function() {
           res.json(errors.invalidId(livestreamId));
         }
       } else {
-        res.json(errors.invalidJson(body));
+        res.json(self.errors.invalidJson(body));
       }
     });
 
