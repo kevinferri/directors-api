@@ -1,3 +1,9 @@
+/*********************************************************************************************************************************
+ * Handles HTTP requests that are defined in ./routes.js
+ * Function names correlate with the route and HTTP verb they control
+ * Each function is responsible for santizing and validating incomming data and making sure it sends proper data to db operations
+**********************************************************************************************************************************/
+
 var Director = require('../models/Director.js'),
   livestreamAPI = require('../lib/livestream-api.js'),
   dbOperations = require('../lib/database-operations.js'),
@@ -10,9 +16,14 @@ var Director = require('../models/Director.js'),
  * @param {{}} res
  */
 exports.getDirector = function(req, res) {
-  dbOperations.findDirectorById(req.params.id, function(director) {
-    res.json(director);
-  });
+  var id = req.params.id;
+  if (utils.isValidId(id)) {
+    dbOperations.findDirectorById(id, function(director) {
+      res.json(director);
+    });
+  } else {
+    res.json(errors.invalidId(id));
+  }
 }
 
 /**
@@ -36,31 +47,40 @@ exports.postDirector = function(req, res) {
   });
 
   req.on('end', function () {
-    var livestreamId = JSON.parse(body).livestream_id;
 
-    // Need to pass livestream_id in the body of the request
-    if (livestreamId === undefined || livestreamId === null) {
-      res.json(errors.badRequestBody(body));
-    }
+    if (utils.isValidJson(body)) {
+      var livestreamId = JSON.parse(body).livestream_id;
 
-    livestreamAPI.getLivestreamDirector(livestreamId, function(director) {
+      // Need to pass livestream_id in the body of the request
+      if (livestreamId === undefined || livestreamId === null) {
+        res.json(errors.badRequestBody(body));
+      }
 
-      // If the director isn't found in the Livestream API, we can't add it to our API
-      if (director === undefined || director === null) {
-        res.json(errors.noLivestreamAccount(livestreamId));
-      } else {
-        dbOperations.findDirectorById(director._id, function(foundDirector) {
-          // If we find the director, it's already in the db and we don't want to add it again
-          if (foundDirector._id) {
-            res.json(errors.alreadyRegistered(foundDirector._id));
+      if (utils.isValidId(livestreamId)) {
+        livestreamAPI.getLivestreamDirector(livestreamId, function(director) {
+          // If the director isn't found in the Livestream API, we can't add it to our API
+          if (director === undefined || director === null) {
+            res.json(errors.noLivestreamAccount(livestreamId));
           } else {
-            // Add the director in the db and send it as a response
-            dbOperations.insertDirector(director);
-            res.json(director);
+            dbOperations.findDirectorById(director._id, function(foundDirector) {
+              // If we find the director, it's already in the db and we don't want to add it again
+              if (foundDirector._id) {
+                res.json(errors.alreadyRegistered(foundDirector._id));
+              } else {
+                // Add the director in the db and send it as a response
+                dbOperations.insertDirector(director, function(director) {
+                  res.json(director);
+                });
+              }
+            });
           }
         });
+      } else {
+        res.json(errors.invalidId(livestreamId));
       }
-    });
+    } else {
+      res.json(errors.invalidJson(body));
+    }
   });
 
 }
@@ -75,7 +95,6 @@ exports.getDirectors = function(req, res) {
     res.json(directors);
   });
 }
-
 
 /**
  * Updates an individual director
@@ -97,7 +116,29 @@ exports.putDirector = function(req, res) {
   });
 
   req.on('end', function () {
-    // update the director with the id in the url
-    // use the data from the request body
+    if (utils.isValidJson(body)) {
+      var id = req.params.id,
+        favorite_camera = JSON.parse(body).favorite_camera,
+        favorite_movies = JSON.parse(body).favorite_movies;
+
+      // Need to pass either favorite_camera or favorite_movies in the request body
+      if ((favorite_camera === undefined || favorite_camera === null) &&  (favorite_movies === undefined || favorite_movies === null)) {
+        res.json(errors.badRequestBody(body));
+      }
+
+      if (utils.isValidId(id)) {
+        dbOperations.findDirectorById(id, function(director) {
+          dbOperations.updateDirector(director, [{ favorite_camera: 'something', favorite_movies: 'something'}], function() {
+
+          });
+        });
+      } else {
+        res.json(errors.invalidId);
+      }
+
+    } else {
+      res.json(errors.invalidJson(body));      
+    }
+
   });
 }

@@ -1,6 +1,7 @@
-/**
-  * Defines all the routes for the API
- */
+/*************************************
+ * Defines all the routes for the API
+**************************************/
+
 module.exports = (function() {
   'use strict';
 
