@@ -1,10 +1,13 @@
 # Directors API
 
 ## To use/clone this app
-```git clone http://github.com/kevinferri/directors-api```
-```cd directors-api```
-```npm install```
-```node server.js```
+```bash
+git clone http://github.com/kevinferri/directors-api
+cd directors-api
+npm install
+node server.js
+```
+
 App will be running on `http://localhost:3000`
 
 ## Software Requirements
