@@ -5,6 +5,7 @@ var express = require('express'),
   mongoose = require('mongoose'),
   dbInfo = require('./config/database.js'),
   routes = require('./routes'),
+  midddleware = require('./lib/middleware.js')
   port = 3000;
 
 // Use mongoDB to store data

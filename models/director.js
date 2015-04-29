@@ -6,10 +6,6 @@
 var mongoose = require('mongoose');
 
 var directorSchema = mongoose.Schema({
-  _id: {
-    type: Number,
-    required: true
-  },
   full_name: {
     type: String,
     required: true
@@ -21,18 +17,20 @@ var directorSchema = mongoose.Schema({
   },
   favorite_camera: {
     type: String,
-    required: false
+    required: false,
+    default: null
   },
   favorite_movies: {
     type: Array,
-    required: false
-  }, 
+    required: false,
+    default: null
+  },
+  livestream_id: {
+    type: Number,
+    required: true
+  }
 }, { versionKey: false });
 
 var Director = mongoose.model('Director', directorSchema);
-
-Director.schema.path('_id').validate(function (id) {
-  return typeof id !== 'undefined' && !isNaN(id) && id > 0;
-}, 'Invalid ID');
 
 module.exports = Director;

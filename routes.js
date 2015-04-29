@@ -6,12 +6,14 @@ module.exports = (function() {
   'use strict';
 
   var router = require('express').Router(),
-    directors = require('./controllers/directors.js');
+    directors = require('./controllers/directors.js'),
+    middleware = require('./lib/middleware.js')
 
   router.post('/directors', directors.postDirector);
   router.get('/directors', directors.getDirectors);
-  router.get('/directors/:id', directors.getDirector);
-  //router.put('/directors/:id', directors.putDirector);
+  router.get('/directors/:id', middleware.isValidId, directors.getDirector);
+  router.delete('/directors/:id', middleware.isValidId, directors.deleteDirector);
+  router.put('/directors/:id', middleware.isValidId, directors.putDirector);
 
   return router;
 
