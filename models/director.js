@@ -12,7 +12,7 @@ var directorSchema = mongoose.Schema({
   },
   dob: {
     type: Date,
-    // This isn't required because some dob's are null in the Livestream API and will throw an error if making it required
+    // This isn't required because some dob's are null in the Livestream API
     required: false
   },
   favorite_camera: {
@@ -23,7 +23,6 @@ var directorSchema = mongoose.Schema({
   favorite_movies: {
     type: Array,
     required: false,
-    default: null
   },
   livestream_id: {
     type: Number,

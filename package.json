@@ -1,12 +1,16 @@
 {
-    "name": "directors-api",
-    "description": "Livestream directors API",
-    "main": "server.js",
-    "repository": "https://github.com/kevinferri/directors-api",
-    "dependencies": {
-      "express": "4.2.0",
-      "mongoose": "latest",
-      "body-parser": "latest",
-      "request": "latest"
-    }
+  "name": "directors-api",
+  "description": "Livestream directors API",
+  "main": "server.js",
+  "repository": "https://github.com/kevinferri/directors-api",
+  "dependencies": {
+    "express": "4.2.0",
+    "mongoose": "latest",
+    "body-parser": "latest",
+    "request": "latest"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.4",
+    "should": "^6.0.1"
+  }
 }

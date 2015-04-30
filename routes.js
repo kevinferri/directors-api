@@ -7,7 +7,7 @@ module.exports = (function() {
 
   var router = require('express').Router(),
     directors = require('./controllers/directors.js'),
-    middleware = require('./lib/middleware.js')
+    middleware = require('./lib/route-middleware.js')
 
   router.post('/directors', directors.postDirector);
   router.get('/directors', directors.getDirectors);
