@@ -25,5 +25,4 @@ This API uses mocha for testing. All tests can be found in the `/test` folder. T
 
 ```
 $ mocha
-
 ```
