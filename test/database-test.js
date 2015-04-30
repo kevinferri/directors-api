@@ -2,9 +2,10 @@
  * Tests for any db operation that is ran 
 *****************************************/
 
-var should = require('should');
+/*var should = require('should'),
+  utils = require('../lib/utils.js');
 
-describe('Database', function(){
+describe('Database', function() {
 
   var Director = require('../models/Director.js');
 
@@ -17,14 +18,18 @@ describe('Database', function(){
   });
 
   describe('find()', function() {
-    it('should respond with matching records', function() {
-      var d = new Director({ livestream_id: 1, full_name: 'Martin Scorsese'});
-      d.save();
-      new Director({ livestream_id: 2, full_name: 'John Doe'}).save();
-      new Director({ livestream_id: 3, full_name: 'Mary Ann'}).save();
+    it('should respond with matching records', function(done) {
+
+      var d1 = new Director({ livestream_id: 1, full_name: 'Martin Scorsese'});
+      var d2 = new Director({ livestream_id: 1, full_name: 'John Doe'});
+      var d3 = new Director({ livestream_id: 1, full_name: 'Mary Ann'});
+
+      d1.save();
+      d2.save();
+      d3.save();
 
       Director.find({}, function(err, directors) {
-        directors.length.should.equal(3);
+        directors.should.have.length(3);
         done();
       });
     });
@@ -36,11 +41,26 @@ describe('Database', function(){
       new Director({ livestream_id: 1, full_name: 'Martin Scorsese'}).save();
       new Director({ livestream_id: 2, full_name: 'John Doe'}).save();
       new Director({ livestream_id: 3, full_name: 'Mary Ann'}).save();
-
-      Director.findOne({ livestream_id: 1 }, function(director) {
-        
+      
+      Director.findOne({ livestream_id: 1 }, function(err, director) {
+        utils.isArray(director).should.equal(false) && should.exist(director);
+        done();
       });
     });
   });
 
-})
+  describe('findByIdAndRemove()', function() {
+    it('should remove the document if it exists', function(done) {
+      var director = new Director({ _id: 100, livestream_id: 1, full_name: 'Martin Scorsese'}),
+        id = '53fbf4615c3b9f41c381b6a3';
+      director.save();
+      Director.findByIdAndRemove({ _id: id }, function(err, doc) {
+        Director.findOne({ _id: id }, function (foundDirector) {
+          foundDirector.should.equal(null);
+          done();
+        });
+      });
+    });
+  });
+
+})*/
