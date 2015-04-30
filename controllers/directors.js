@@ -41,46 +41,55 @@ var directorCtrl = function() {
     }
   };
 
-  // Response message for the director resource
+  // Custom response messages for the director resource
   self.responses = {
+
     alreadyRegistered: function(id) {
       return {
         name: 'AlreadyRegistered',
         message: 'The director with Livestream id ' + id + ' is already registered'
       }
     },
+
     tooMuchData: function() {
       return {
         name: 'TooMuchData',
         message: 'Too much POST data'
       }
     },
+
     badRequestBody: function(fields) {
-      var message = '';
-      for (var i = 0; i < fields.length; i++) {
-        if (i === fields.length - 1) {
-          message += fields[i];
-        } else {
-          message += fields[i] + ' or ';
+      var response = { name: 'BadRequestBody' };
+      if (fields.length > 0) {
+        var message = '';
+        for (var i = 0; i < fields.length; i++) {
+          if (i === fields.length - 1) {
+            message += fields[i];
+          } else {
+            message += fields[i] + ' or ';
+          }
         }
+        response.message = message;
+      } else {
+        response.message = 'Bad request error'
       }
-      return {
-        name: 'BadRequestBody',
-        message: 'Bad Request body: ' + message + ' is required'
-      }
+      return response;
     },
+
     invalidJson: function(str) {
       return {
         name: 'InvalidJson',
         message: str + ' is not valid JSON',
       }
     },
+
     directorNotFound: function(id) {
       return {
         name: 'NotFoundError',
         message: 'There is no registered director with the id of ' + id
       }
-    }
+    },
+
   };
 
   /**
@@ -221,9 +230,13 @@ var directorCtrl = function() {
             res.status(404).json(self.responses.directorNotFound(id));
           } else {
 
-            // If favorite_movies is passes as a string seperated by commas, we must convert it into an array
+            // If favorite_movies is passed as a string, we must convert it into an array
             if (favorite_movies && !utils.isArray(favorite_movies)) {
-              favorite_movies = favorite_movies.split(', ');
+              if (typeof favorite_movies === 'string') {
+                favorite_movies = favorite_movies.split(', ');
+              } else {
+                res.status(404).json(self.responses.badRequestBody([]));
+              }
             }
 
             // If favorite_camera is passed, update the document with the value

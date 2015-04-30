@@ -1,6 +1,7 @@
 # Directors API
 
 ## To use/clone this app
+Make sure you have MongoDB installed and running then run
 ```
 git clone http://github.com/kevinferri/directors-api
 cd directors-api
