@@ -1,4 +1,4 @@
-/*******************************************************************
+/******************************************************************
  * Handles HTTP requests that are defined in ./routes.js
  * If an error occurs, it is sent to the error handling middleware
 *******************************************************************/
@@ -235,7 +235,7 @@ var directorCtrl = function() {
               if (typeof favorite_movies === 'string') {
                 favorite_movies = favorite_movies.split(', ');
               } else {
-                res.status(404).json(self.responses.badRequestBody([]));
+                res.status(400).json(self.responses.badRequestBody([]));
               }
             }
 
