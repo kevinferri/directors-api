@@ -8,7 +8,7 @@ describe('Livestream API', function() {
     livestreamAPI = require('../lib/Livestream-api.js'),
     utils = require('../lib/utils.js');
 
-  describe('getLivestreamDirector()', function() {
+  describe('#getLivestreamDirector()', function() {
     
     it('should get the Livestream director with the id that is passed as a parameter', function(done) {
       livestreamAPI.getLivestreamDirector(92383, function(director) {

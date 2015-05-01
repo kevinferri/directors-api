@@ -8,7 +8,7 @@ var express = require('express'),
   port = 3000;
 
 // Use MongoDB to store data and Mongoose to model that data
-mongoose.connect(dbInfo['conn']);
+mongoose.connect(dbInfo['local']);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

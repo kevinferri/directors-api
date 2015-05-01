@@ -69,7 +69,7 @@ var directorCtrl = function() {
             message += fields[i] + ' or ';
           }
         }
-        response.message = message;
+        response.message = message + ' is required';
       } else {
         response.message = 'Bad request error'
       }

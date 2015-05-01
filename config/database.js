@@ -1,7 +1,8 @@
 /*************************
  * Config info for MongoDB
-**************************/
+ ************************/
 
 module.exports = {
-  'conn': 'mongodb://localhost/directors',
+  'local': 'mongodb://localhost/directors',
+  'test': 'mongodb://localhost/test',
 };
