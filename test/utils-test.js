@@ -9,7 +9,8 @@ describe('Utils', function() {
 
   describe('#isValidJson()', function() {
     it('should return true only if input is valid JSON', function(done) {
-      utils.isValidJson('{ "test": ""{').should.equal(false) && utils.isValidJson('{ "foo": "bar" }').should.equal(true);
+      utils.isValidJson('{ "test": ""{').should.equal(false) &&
+      utils.isValidJson('{ "foo": "bar" }').should.equal(true);
       done();
     });
   });

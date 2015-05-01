@@ -29,13 +29,13 @@ A director must have a valid Livestream id in order to create an account on this
 | GET          | /directors         | Gets a list of all the directors                                              |
 | GET          | /directors/{_id}   | Gets individual director document                                             |
 | DELETE       | /directors/{_id}   | Removes individual director document                                          |
-| PUT          | /directors/{_id}   | Updates either `favorite_camera` or `favorites_movies` based on request body. Can accept an array or a string seperated by commas  |
+| PUT          | /directors/{_id}   | Updates either `favorite_camera` or `favorites_movies` based on request body. Can accept an array or a string seperated by commas and a space e.g. "Movie1, Movie2, Movie3"  |
 
 ## File definitions
 
 ```
 config/         -> config information
-controllers/    -> controls http requests, file named after the resource it controls
+resources/      -> handles http requests to a specific resource, file named after the resource it controls
 lib/            -> application specific libraries
 models/         -> database schema
 test/           -> mocha test files
