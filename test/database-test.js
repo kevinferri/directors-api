@@ -54,8 +54,12 @@ describe('Database', function() {
   describe('#save()', function() {
     it('should save without an error', function(done) {
       var director = new Director({ livestream_id: 1, full_name: 'Martin Scorsese'});
-      director.save();
-      done();
+      director.save(function (err) {
+        should.not.exist(err);
+        director.full_name = 'Mary Ann';
+        director.save();
+        done();
+      })
     });
   });
 

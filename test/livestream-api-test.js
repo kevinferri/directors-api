@@ -19,10 +19,10 @@ describe('Livestream API', function() {
 
     it ('should return a director with exactly 3 fields: _id, full_name, and dob', function(done) {
       livestreamAPI.getLivestreamDirector(92383, function(director) {
-        utils.getNumFields(director).should.equal(3) &&
-        (typeof director._id).should.equal('number') &&
-        (typeof director.full_name).should.equal('string') &&
-        (typeof director.dob).should.equal('string') &&
+        utils.getNumFields(director).should.equal(3);
+        (typeof director._id).should.equal('number');
+        (typeof director.full_name).should.equal('string');
+        (typeof director.dob).should.equal('string');
         done();
       });
     });
