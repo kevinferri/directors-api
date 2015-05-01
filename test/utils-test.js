@@ -1,5 +1,5 @@
 /*********************************************
- * Tests for any utility operation that is ran 
+ * Tests for any utility operation that is run 
 **********************************************/
 
 var should = require('should'),
