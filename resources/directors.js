@@ -7,7 +7,7 @@ var Director = require('../models/Director.js'),
   livestreamAPI = require('../lib/livestream-api.js'),
   utils = require('../lib/utils.js');
 
-var directorCtrl = function() {
+var directorResource = function() {
 
   var self = this;
 
@@ -264,4 +264,4 @@ var directorCtrl = function() {
 
 }
 
-module.exports = new directorCtrl();
+module.exports = new directorResource();
