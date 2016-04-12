@@ -33,7 +33,7 @@ var directorResource = function() {
 
       req.on('end', function () {
         if (utils.isValidJson(body)) {
-          callback(body);
+          return callback(body);
         } else {
           res.status(400).json(self.responses.invalidJson(body));
         }
@@ -99,7 +99,7 @@ var directorResource = function() {
    */
   self.getDirector = function(req, res, next) {
     var id = req.params.id;
-    
+
     Director.findOne({ _id: id}, function(err, director) {
       if (err) {
         err.message = 'Internal server error';
@@ -136,7 +136,7 @@ var directorResource = function() {
   self.postDirector = function(req, res, next) {
 
     self.helpers.getRequestBody(req, res, function(body) {
-      
+
       var livestreamId = JSON.parse(body).livestream_id;
 
       // Need to pass livestream_id in the body of the request
@@ -146,8 +146,8 @@ var directorResource = function() {
         livestreamAPI.getLivestreamDirector(livestreamId, function(director, err) {
 
           if (!director) {
-            res.status(err.status).json({ 
-              'name': err.name, 'message': err.message 
+            res.status(err.status).json({
+              'name': err.name, 'message': err.message
             });
           } else {
             Director.findOne({ 'livestream_id': director._id }, function(err, foundDirector) {
@@ -156,14 +156,14 @@ var directorResource = function() {
               if (foundDirector) {
                 res.status(400).json(self.responses.alreadyRegistered(director._id));
               } else {
-              
+
                 // Set up the director to be inserted into our database
                 var directorToInsert = new Director({
                   full_name: director.full_name,
                   dob: director.dob,
                   livestream_id: director._id
                 });
-                
+
                 // Insert the director in the db and send it as a response
                 directorToInsert.save(function(err, director) {
                   if (err) {
@@ -214,7 +214,7 @@ var directorResource = function() {
         favorite_movies = JSON.parse(body).favorite_movies,
         id = req.params.id;
 
-      // Need to pass favorite_camera or favorite_movies in the request body  
+      // Need to pass favorite_camera or favorite_movies in the request body
       if (!favorite_camera && !favorite_movies) {
         res.status(400).json(self.responses.badRequestBody(['favorite_camera', 'favorite_movies']));
       } else {
